@@ -1,74 +1,135 @@
-# **Project Proposal: Loan Eligibility and Loan Amount Prediction**
+**Loan Eligibility and Loan Amount Prediction** 
 
-**Project Description:**  
-Predicting credit risk is one of the important applications of data science in the financial industry. Lending institutions face the challenge of balancing risk and profitability: approving loans for creditworthy customers while minimizing defaults. This project aims to build a predictive system for loan eligibility and loan amount estimation. The project is intended to assist lending institutions in making data-driven decisions by predicting two key outcomes:
-1. **Loan Eligibility:** Determine whether a customer should be approved for a loan based on their financial and demographic profile.  
-2. **Loan Amount:** Estimate the loan amount that can be safely approved for eligible customers.
+**Link for presentation:** https://youtu.be/HDyQraQMVGg
 
-The project will involve analyzing a dataset from Kaggle containing detailed information about loan applicants, including their income, credit history, loan amount, and other relevant features. The project will involve data collection, data cleaning, feature extraction, model training, and data visualization to gain insights into credit risk factors.
+**1. Project Overview**
 
-**Project Goals:**  
-By analyzing financial and demographic factors, building and comparing multiple machine learning models, we aim to identify the best-performing model for each task and provide actionable insights to lending institutions. The primary objectives of this project are:
-1. **Loan Eligibility Prediction**: Build a classification model to predict whether a customer is eligible for a loan.  
-2. **Loan Amount Estimation**: Build a regression model to estimate the loan amount that can be safely approved for eligible customers.  
-3. **Data Visualization & Insights**: Generate meaningful visualizations to explore relationships between features and their impact on loan eligibility and loan amount.  
-4. **Hypothesis Testing**: Propose and validate hypotheses related to loan approvals, such as the impact of credit history, income levels, and employment status on approval.
+This project focuses on predicting loan eligibility based on customer financial records and demographic details. The main objectives are:
 
-**Data Collection:**  
-The dataset used in this project is the Loan Prediction Dataset from Kaggle ([https://www.kaggle.com/datasets/altruistdelhite04/loan-prediction-problem-dataset?resource=download\&select=train\_u6lujuX\_CVtuZ9i.csv](https://www.kaggle.com/datasets/altruistdelhite04/loan-prediction-problem-dataset?resource=download&select=train_u6lujuX_CVtuZ9i.csv)). This dataset includes 13 features describing 641 loan applicants:
-* **Demographic Information**: Gender, Marital Status, Number of Dependents, Education, Employment Status.  
-* **Financial Information**: Applicant Income, Co-applicant Income, Credit History.  
-* **Loan Details**: Loan Amount, Loan Term, Property Area, Loan Status (Approved/Not Approved).
-The dataset is already pre-collected, so no external data collection is required. However, data cleaning and preprocessing will be performed to handle missing values, outliers, and categorical encoding.
+- **Loan Eligibility Prediction (Classification)**: Determine whether a loan should be approved (Loan_Status).
+- **Loan Amount Estimation (Regression - Future Work)**: Predict the loan amount that can be safely approved.
 
-**Modeling Approach:**  
-We will build and compare multiple models for classification and regression tasks to identify the best-performing model.
-1. **Loan Eligibility Prediction (Classification):**  
-* Algorithms to Compare:  
-  * Logistic Regression  
-  * Random Forest   
-  * K-Nearest Neighbors  
-  * Decision Tree   
-  * Support Vector Machines  
-* Evaluation Metrics: Accuracy, Precision, Recall, F1-Score.  
+The dataset includes 13 features describing 614 loan applicants: Loan_ID, Gender, Married, Dependents, Education, Self_Employed, ApplicantIncome, CoapplicantIncome, LoanAmount, Loan_Amount_Term, Credit_History, Property_Area, Loan_Status. So far, we have completed data analysis, hypothesis validation, data processing, feature engineering, and training and evaluation of logistic regression models.
 
-2. **Loan Amount Prediction (Regression):**  
-* Algorithms to Compare:  
-  * Linear Regression  
-  * Random Forest  
-  * K-Nearest Neighbors  
-  * Decision Trees  
-  * Support Vector Machines  
-* Evaluation Metrics: Mean Absolute Error, Mean Squared Error, R-squared.
+ 
 
-**Feature Engineering:**
-* Create new features like Total Income (Applicant Income \+ Co-applicant Income) and Loan-to-Income Ratio (Loan Amount / Total Income).  
-* Encode categorical variables (e.g., Gender, Married, Education) using label encoding.  
-* Normalize numerical features (e.g., Applicant Income, Loan Amount).
+**2. Data Analysis**
 
-**Data Visualization:**  
-We plan to include at least 5 key visualizations to explore the dataset and model results, such as:
-* Univariate Analysis: Histogram of Applicant Income to understand income distribution.  
-* Bivariate Analysis: Scatter plot of Applicant Income vs. Loan Amount to explore their relationship.  
-* Multivariate Analysis: Heatmap of correlations between numerical features (e.g., Applicant Income, Loan Amount, Credit History).  
-* Impact of Features on Loan Eligibility: Bar plot showing the approval rates for different credit history groups.  
-* Hypothesis Testing: Test hypotheses like “Applicants with higher incomes are more likely to be approved for loans.”
+**2.1 Dataset Characteristics**
 
-**Test Plan:**
-1. **Train-Test Split:** We will split the dataset into training (80%) and testing (20%) sets to evaluate model performance.  
-2. **Cross-Validation:** Use k-fold cross-validation (e.g., k=5) to ensure the models generalize well to unseen data.  
-3. **Evaluation Metrics:** Compare models based on the metrics mentioned above for both classification and regression tasks.
+- **Initial Exploration:**
 
-**Hypotheses to Test:**
-* Hypothesis 1: Applicants with higher incomes are more likely to be approved for loans.
+- - Dataset shape: (614, 13)
+  - Variables: 12 features + 1 target (Loan_Status)
+  - Categorical features: Gender, Married, Self_Employed, Credit_History, Loan_Status.
+  - Ordinal features: Dependents, Education, Property_Area.
+  - Numerical features: ApplicantIncome, CoapplicantIncome, LoanAmount, Loan_Amount_Term.
 
-  Test: Compare approval rates across income brackets.
-* Hypothesis 2: Applicants with a credit history are more likely to be approved for loans.
+**2.2 Preliminary Visualizations**
 
-  Test: Compare approval rates for applicants with and without a credit history.
-* Hypothesis 3: Married applicants are more likely to be approved for loans than unmarried applicants.
+**Univariate Analysis:**
 
-  Test: Compare approval rates by marital status.
-* Hypothesis 4: The loan amount approved is positively correlated with the applicant’s income.
+- **Target Variable (Loan_Status) Distribution**: A bar plot to observe the ratio of approved vs. rejected     loans. The loan of 422 (68.7%) people out of 614 was approved.
 
-  Test: Use a scatter plot and correlation analysis to explore the relationship.
+- **Categorical Feature Distributions**:     Bar plots with counts and proportions for: Gender, Married, Self_Employed, Credit_History, Dependents, Education, Property_Area
+
+- **Numerical Feature Distributions**:
+
+- - Histograms and Box plots for ApplicantIncome, CoapplicantIncome, LoanAmount and TotalIncome.
+  - Logarithmic transformation applied to skewed features.
+
+**Bivariate Analysis:**
+
+- **Categorical / Numerical Features vs. Loan Status**: Stacked percentage bar chart of approval status distributed by different feature categories.
+- **Scatterplot with regression line**: Applicant's income positively correlates with approved loan amount.
+
+**Multivariate Analysis:**
+
+- **Correlation Heatmap**: Identified relationships between features. The most relevant variables are     (Applicantlcome-LoanAmount) and (Credit_History-LoanStatus).
+
+**2.3 Hypothesis Testing**
+
+Through data analysis, we validated the previously proposed hypothesis and found that:
+
+- Applicants with a credit history are more likely to be approved for loans.
+- Married applicants are more likely to be approved for loans  than unmarried applicants. 
+- The loan amount approved is positively correlated with the applicant’s income. 
+- The applicant's income does not affect loan approval, which is contrary to hypothesis.
+
+ 
+
+**3. Data Processing**
+
+To ensure high-quality input data for modeling, we applied the following preprocessing steps:
+
+**3.1** **Handling Missing Values**
+
+- Missingness report: Highest in Credit_History (about 8%); Other features <5% missing.
+- Used **mode imputation** for categorical features: Credit_History  with mode, Missing values for Self_Employed, Dependents, Loan_Amount_Term, Gender, Married.
+- Used **median imputation** for numerical feature Loan     Amount. (The data distribution of LoanAmount indicates the presence of outliers in the loan amount, so mean imputation is not used because the mean is greatly affected by outliers)
+
+**3.2 Feature Engineering**
+
+- **Created TotalIncome** = ApplicantIncome + CoapplicantIncome.
+- **Categorized Income Levels**: Binned income into four equal-width bins: low, average, high, and very high.
+- **Encoded Categorical Variables** using LabelEncoder.
+
+- - e.g., Gender ["Male", "Female"] into numerical values ([0, 1]).
+  - Special handling: '3+' → 3 in Dependents.
+
+**3.3 Handling Outliers**
+
+- **Log Transformation** applied to ApplicantIncome, CoapplicantIncome, LoanAmount and TotalIncome to reduce skewness.
+
+- - Before/after plots showing normalized distributions.
+
+**3.4 Data Normalization**
+
+- **Standardized numerical features** (ApplicantIncome, CoapplicantIncome, LoanAmount, TotalIncome, Loan_Amount_Term) using StandardScaler.
+
+- 
+
+**4. Data Modeling**
+
+**4.1 Model Selection**
+
+We implemented a **logistic regression model** as the baseline based on its interpretability and fast training. Future improvements will include Random Forest, Decision Tree, and SVM.
+
+**4.2 Model Training**
+
+- **80-20 Train-Test Split**: The dataset was split into training (80%) and validation (20%) sets.
+- **Stratified K-Fold Cross-Validation (5 folds)**: Ensures that each fold maintains the same proportion of loan approvals and denials as the full dataset. 
+
+- **Logistic Regression Hyperparameters**: max_iter=2000, random_state=42
+- **Feature Scaling Applied** before training.
+
+**4.3 Model Evaluation** 
+
+- **Cross-Validation Accuracy (Logistic Regression)**: Achieved 79.83%.
+
+- **Model Evaluation on Validation Set**:
+
+- - **Accuracy**: 86.18%
+  - **Precision**: 84%
+  - **Recall**: 98.82%
+  - **F1-Score**: 90.81%
+
+ 
+
+**5. Preliminary Results**
+
+**5.1 Strong Predictors:**
+
+- Credit_History (p<0.001)
+- ApplicantIncome vs LoanAmount: positive correlation (Pearson Correlation=0.5709)
+
+**5.2 Surprising Insights:**
+
+- Applicant income does not affect the chances of loan approval.
+- Self-Employed status not significant (p=1.00)
+
+**5.3 Limitations:**
+
+- Complexity and accuracy of the model needs improvement.
+- Propose new features that may affect the target variable and explore them.
+- Perform interactive visualization.
