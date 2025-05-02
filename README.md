@@ -12,7 +12,7 @@
 
 git clone https://github.com/buChloeCLY/cs506-proj.git
 
-cd loan-prediction
+cd cs506-proj
 
 - **Install dependencies:**
 
