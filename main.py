@@ -4,8 +4,8 @@ from src.data_analysis import *
 from src.model_training import *
 
 def main():
-    train_path = '../loan_prediction/data/train.csv'
-    test_path = '../loan_prediction/data/test.csv'
+    train_path = 'data/train.csv'
+    test_path = 'data/test.csv'
     train_df = load_data(train_path)
     test_df = load_data(test_path)
 
@@ -153,7 +153,7 @@ def main():
         'Loan_ID': test_df_original['Loan_ID'],
         'Loan_Status': test_predictions
     })
-    submission_df.to_csv("../loan_prediction/data/test_predictions.csv", index=False)
+    submission_df.to_csv("data/test_predictions.csv", index=False)
     print("Test predictions saved.")
 
 if __name__ == "__main__":
